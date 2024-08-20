@@ -1,10 +1,15 @@
 const express = require("express");
+const { logger } = require("./middleware/logger.js");
+const errorHandler = require("./middleware/errorHandler.js");
 const path = require("path");
+
 const PORT = process.env.PORT || 3500;
 
 const app = express();
 
-app.use("/", express.static(path.join(__dirname, "/public")));
+app.use(logger);
+app.use(express.json());
+app.use("/", express.static(path.join(__dirname, "public")));
 app.use("/", require("./routes/root.js"));
 
 app.all("*", (req, res) => {
