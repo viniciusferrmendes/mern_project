@@ -63,7 +63,7 @@ const updateUser = asyncHandler(async (req, res) => {
         user.password = await bcrypt.hash(password, 10);
     }
 
-    const updateUser = await user.save();
+    await user.save();
 
     res.json({ message: `${username} updated.` });
 });
@@ -84,11 +84,9 @@ const deleteUser = asyncHandler(async (req, res) => {
         return res.status(400).json({ message: "User not found." });
     }
 
-    user.deleteOne();
+    await user.deleteOne();
 
-    const reply = `Username ${user.username} with ID ${id} deleted.`;
-
-    res.json(reply);
+    res.json(`Username ${user.username} with ID ${id} deleted.`);
 });
 
 module.exports = { getAllUsers, createNewUser, updateUser, deleteUser };
